@@ -70,13 +70,16 @@ function wp_listings_template_include( $template ) {
 /**
  * Controls output of default state for the state custom field if there is one set
  */
-function wp_listings_get_state() {
+function wp_listings_get_state($post_id = null) {
 
 	$options = get_option('plugin_wp_listings_settings');
 
-	global $post;
+	if ( null == $post_id ) {
+		global $post;
+		$post_id = $post->ID;
+	}
 
-	$state = get_post_meta($post->ID, '_listing_state', true);
+	$state = get_post_meta($post_id, '_listing_state', true);
 
 	if (isset($options['wp_listings_default_state'])) {
 		$default_state = $options['wp_listings_default_state'];
@@ -96,11 +99,14 @@ function wp_listings_get_state() {
 /**
  * Controls output of city name
  */
-function wp_listings_get_city() {
+function wp_listings_get_city($post_id = null) {
 
-	global $post;
+	if ( null == $post_id ) {
+		global $post;
+		$post_id = $post->ID;
+	}
 
-	$city = get_post_meta($post->ID, '_listing_city', true);
+	$city = get_post_meta($post_id, '_listing_city', true);
 
 	if ( '' == $city ) {
 		$city = 'Cityname';
@@ -114,9 +120,12 @@ function wp_listings_get_city() {
  */
 function wp_listings_get_address($post_id = null) {
 
-	global $post;
+	if ( null == $post_id ) {
+		global $post;
+		$post_id = $post->ID;
+	}
 
-	$address = get_post_meta($post->ID, '_listing_address', true);
+	$address = get_post_meta($post_id, '_listing_address', true);
 
 	if ( '' == $address ) {
 		$address = 'Address Unavailable';
